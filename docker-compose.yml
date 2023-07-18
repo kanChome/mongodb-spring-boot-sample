@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+  mongodb:
+    image: mongo
+    restart: always
+    container_name: sample-mongodb
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD}
+  app:
+    build: ./docker
+    container_name: sample-app
+    ports:
+      - 8081:8080
+    environment:
+      - SPRING_DATA_MONGODB_USERNAME=${MONGODB_USERNAME}
+      - SPRING_DATA_MONGODB_PASSWORD=${MONGODB_PASSWORD}
+      - SPRING_DATA_MONGODB_HOST=${MONGODB_HOST}
+      - SPRING_DATA_MONGODB_PORT=${MONGODB_PORT}
+    depends_on:
+      - mongodb
